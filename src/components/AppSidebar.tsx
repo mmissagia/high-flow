@@ -4,7 +4,22 @@ import {
   Calendar, 
   MessageSquare, 
   GraduationCap,
-  TrendingUp
+  TrendingUp,
+  Eye,
+  Kanban,
+  List,
+  UserCircle,
+  CalendarDays,
+  FileEdit,
+  Megaphone,
+  Zap,
+  PenTool,
+  MessageCircle,
+  BookOpen,
+  Heart,
+  UserCog,
+  Crown,
+  ChevronRight
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
@@ -18,15 +33,63 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
   useSidebar,
 } from "@/components/ui/sidebar";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
-const menuItems = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard },
-  { title: "CRM", url: "/crm", icon: Users },
-  { title: "Eventos & Pitches", url: "/eventos", icon: Calendar },
-  { title: "Comunicação", url: "/comunicacao", icon: MessageSquare },
-  { title: "Entrega", url: "/entrega", icon: GraduationCap },
+const menuStructure = [
+  {
+    title: "Dashboard",
+    icon: LayoutDashboard,
+    items: [
+      { title: "Visão Geral", url: "/", icon: Eye },
+    ],
+  },
+  {
+    title: "CRM High-Ticket",
+    icon: Users,
+    items: [
+      { title: "Pipeline", url: "/crm/pipeline", icon: Kanban },
+      { title: "Lista de Leads", url: "/crm/leads", icon: List },
+      { title: "Ficha do Lead", url: "/crm/lead", icon: UserCircle },
+    ],
+  },
+  {
+    title: "Eventos & Pitches",
+    icon: Calendar,
+    items: [
+      { title: "Lista de Eventos", url: "/eventos", icon: CalendarDays },
+      { title: "Detalhe do Evento", url: "/eventos/detalhe", icon: Eye },
+      { title: "Editor de Pitch", url: "/eventos/pitch", icon: FileEdit },
+    ],
+  },
+  {
+    title: "Comunicação",
+    icon: MessageSquare,
+    items: [
+      { title: "Campanhas", url: "/comunicacao/campanhas", icon: Megaphone },
+      { title: "Automações", url: "/comunicacao/automacoes", icon: Zap },
+      { title: "Editor de Mensagens", url: "/comunicacao/editor", icon: PenTool },
+      { title: "Conversas (WhatsApp)", url: "/comunicacao/conversas", icon: MessageCircle },
+    ],
+  },
+  {
+    title: "Entrega",
+    icon: GraduationCap,
+    items: [
+      { title: "Meus Cursos", url: "/entrega/cursos", icon: BookOpen },
+      { title: "Minhas Mentorias", url: "/entrega/mentorias", icon: Heart },
+      { title: "Painel do Mentor", url: "/entrega/mentor", icon: UserCog },
+      { title: "Painel do Produtor", url: "/entrega/produtor", icon: Crown },
+    ],
+  },
 ];
 
 export function AppSidebar() {
@@ -34,7 +97,9 @@ export function AppSidebar() {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  const isActive = (path: string) => currentPath === path;
+  const isActiveGroup = (items: { url: string }[]) => {
+    return items.some((item) => currentPath === item.url || currentPath.startsWith(item.url + "/"));
+  };
 
   return (
     <Sidebar className="border-r border-sidebar-border">
@@ -57,20 +122,45 @@ export function AppSidebar() {
           <SidebarGroupLabel>Menu Principal</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink 
-                      to={item.url} 
-                      end 
-                      className="hover:bg-sidebar-accent"
-                      activeClassName="bg-sidebar-accent text-sidebar-primary font-medium"
-                    >
-                      <item.icon className="h-4 w-4" />
-                      {state === "expanded" && <span>{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+              {menuStructure.map((group) => (
+                <Collapsible
+                  key={group.title}
+                  defaultOpen={isActiveGroup(group.items)}
+                  className="group/collapsible"
+                >
+                  <SidebarMenuItem>
+                    <CollapsibleTrigger asChild>
+                      <SidebarMenuButton className="w-full justify-between hover:bg-sidebar-accent">
+                        <div className="flex items-center gap-2">
+                          <group.icon className="h-4 w-4" />
+                          {state === "expanded" && <span>{group.title}</span>}
+                        </div>
+                        {state === "expanded" && (
+                          <ChevronRight className="h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                        )}
+                      </SidebarMenuButton>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <SidebarMenuSub>
+                        {group.items.map((item) => (
+                          <SidebarMenuSubItem key={item.title}>
+                            <SidebarMenuSubButton asChild>
+                              <NavLink
+                                to={item.url}
+                                end
+                                className="hover:bg-sidebar-accent"
+                                activeClassName="bg-sidebar-accent text-sidebar-primary font-medium"
+                              >
+                                <item.icon className="h-3.5 w-3.5" />
+                                {state === "expanded" && <span>{item.title}</span>}
+                              </NavLink>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        ))}
+                      </SidebarMenuSub>
+                    </CollapsibleContent>
+                  </SidebarMenuItem>
+                </Collapsible>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
