@@ -298,6 +298,97 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Funil de Vendas Completo */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Target className="w-5 h-5 text-primary" />
+            Funil de Vendas Completo
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {/* Funil Visual */}
+            <div className="flex flex-col items-center gap-2">
+              {/* Leads */}
+              <div className="w-full max-w-2xl">
+                <div 
+                  className="h-16 bg-gradient-to-r from-primary/80 to-primary flex items-center justify-between px-6 rounded-t-lg"
+                  style={{ clipPath: 'polygon(0 0, 100% 0, 95% 100%, 5% 100%)' }}
+                >
+                  <span className="font-semibold text-primary-foreground">Leads Captados</span>
+                  <div className="text-right">
+                    <span className="text-2xl font-bold text-primary-foreground">1.247</span>
+                    <span className="text-sm text-primary-foreground/80 ml-2">100%</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Low Ticket */}
+              <div className="w-full max-w-xl">
+                <div 
+                  className="h-16 bg-gradient-to-r from-chart-2/80 to-chart-2 flex items-center justify-between px-6"
+                  style={{ clipPath: 'polygon(5% 0, 95% 0, 90% 100%, 10% 100%)' }}
+                >
+                  <span className="font-semibold text-white">Vendas Low Ticket</span>
+                  <div className="text-right">
+                    <span className="text-2xl font-bold text-white">487</span>
+                    <span className="text-sm text-white/80 ml-2">39%</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Eventos High Ticket */}
+              <div className="w-full max-w-md">
+                <div 
+                  className="h-16 bg-gradient-to-r from-accent/80 to-accent flex items-center justify-between px-6"
+                  style={{ clipPath: 'polygon(10% 0, 90% 0, 85% 100%, 15% 100%)' }}
+                >
+                  <span className="font-semibold text-accent-foreground">Eventos High Ticket</span>
+                  <div className="text-right">
+                    <span className="text-2xl font-bold text-accent-foreground">156</span>
+                    <span className="text-sm text-accent-foreground/80 ml-2">12.5%</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mentorias */}
+              <div className="w-full max-w-xs">
+                <div 
+                  className="h-16 bg-gradient-to-r from-success/80 to-success flex items-center justify-between px-6 rounded-b-lg"
+                  style={{ clipPath: 'polygon(15% 0, 85% 0, 80% 100%, 20% 100%)' }}
+                >
+                  <span className="font-semibold text-white">Mentorias</span>
+                  <div className="text-right">
+                    <span className="text-2xl font-bold text-white">76</span>
+                    <span className="text-sm text-white/80 ml-2">6.1%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Métricas de Conversão */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 pt-6 border-t">
+              <div className="text-center p-4 bg-muted/50 rounded-lg">
+                <p className="text-sm text-muted-foreground mb-1">Lead → Low Ticket</p>
+                <p className="text-2xl font-bold text-foreground">39%</p>
+                <p className="text-xs text-success">+5.2% vs mês anterior</p>
+              </div>
+              <div className="text-center p-4 bg-muted/50 rounded-lg">
+                <p className="text-sm text-muted-foreground mb-1">Low Ticket → Evento</p>
+                <p className="text-2xl font-bold text-foreground">32%</p>
+                <p className="text-xs text-success">+3.8% vs mês anterior</p>
+              </div>
+              <div className="text-center p-4 bg-muted/50 rounded-lg">
+                <p className="text-sm text-muted-foreground mb-1">Evento → Mentoria</p>
+                <p className="text-2xl font-bold text-foreground">48.7%</p>
+                <p className="text-xs text-destructive">-2.1% vs mês anterior</p>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
