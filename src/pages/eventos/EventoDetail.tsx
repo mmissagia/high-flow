@@ -84,9 +84,9 @@ export default function EventoDetail() {
       <div className="grid grid-cols-5 gap-4">
         <MetricCard title="Inscritos" value={eventData.registrations.toString()} icon={Users} />
         <MetricCard title="Check-ins" value={`${eventData.checkins} (${checkinRate}%)`} icon={CheckCircle} />
-        <MetricCard title="Receita Total" value={`R$ ${(totalPitchRevenue / 1000).toFixed(0)}K`} icon={DollarSign} trend="+25%" positive />
+        <MetricCard title="Receita Total" value={`R$ ${(totalPitchRevenue / 1000).toFixed(0)}K`} icon={DollarSign} trend={{ value: 25, isPositive: true }} />
         <MetricCard title="CAC Médio" value={`R$ ${eventData.cac}`} icon={TrendingUp} />
-        <MetricCard title="ROAS" value={`${eventData.roas}x`} icon={BarChart} trend="+12%" positive />
+        <MetricCard title="ROAS" value={`${eventData.roas}x`} icon={BarChart} trend={{ value: 12, isPositive: true }} />
       </div>
 
       <Tabs defaultValue="pitches" className="space-y-4">

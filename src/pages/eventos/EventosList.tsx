@@ -79,9 +79,9 @@ export default function EventosList() {
 
       <div className="grid grid-cols-4 gap-4">
         <MetricCard title="Total Eventos" value={mockEvents.length.toString()} icon={Calendar} />
-        <MetricCard title="Total Inscritos" value={totalRegistrations.toString()} icon={Users} trend="+18%" positive />
-        <MetricCard title="Receita Total" value={`R$ ${(totalRevenue / 1000).toFixed(0)}K`} icon={DollarSign} trend="+25%" positive />
-        <MetricCard title="Conversão Média" value={`${avgConversion}%`} icon={TrendingUp} trend="+5%" positive />
+        <MetricCard title="Total Inscritos" value={totalRegistrations.toString()} icon={Users} trend={{ value: 18, isPositive: true }} />
+        <MetricCard title="Receita Total" value={`R$ ${(totalRevenue / 1000).toFixed(0)}K`} icon={DollarSign} trend={{ value: 25, isPositive: true }} />
+        <MetricCard title="Conversão Média" value={`${avgConversion}%`} icon={TrendingUp} trend={{ value: 5, isPositive: true }} />
       </div>
 
       <Card>

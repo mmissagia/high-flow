@@ -75,7 +75,7 @@ export default function PainelProdutor() {
       <div className="grid grid-cols-6 gap-4">
         <MetricCard title="Mentorias Ativas" value={produtorData.overview.activeMentorships.toString()} icon={Heart} />
         <MetricCard title="Total Mentorados" value={produtorData.overview.totalMentees.toString()} icon={Users} />
-        <MetricCard title="IEM Médio" value={`${produtorData.overview.avgIem}%`} icon={TrendingUp} trend="+5%" positive />
+        <MetricCard title="IEM Médio" value={`${produtorData.overview.avgIem}%`} icon={TrendingUp} trend={{ value: 5, isPositive: true }} />
         <MetricCard title="Receita Mentorias" value={`R$ ${(produtorData.overview.totalRevenue / 1000).toFixed(0)}K`} icon={DollarSign} />
         <MetricCard title="Cursos Ativos" value={produtorData.overview.activeCourses.toString()} icon={BookOpen} />
         <MetricCard title="Total Alunos" value={produtorData.overview.totalStudents.toLocaleString()} icon={Users} />

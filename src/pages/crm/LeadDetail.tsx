@@ -125,10 +125,10 @@ export default function LeadDetail() {
 
           {/* Métricas */}
           <div className="grid grid-cols-4 gap-4">
-            <MetricCard title="CAC" value={`R$ ${leadData.cac}`} icon={DollarSign} trend="-5%" positive />
-            <MetricCard title="LTV Estimado" value={`R$ ${(leadData.ltv / 1000).toFixed(0)}K`} icon={TrendingUp} trend="+12%" positive />
+            <MetricCard title="CAC" value={`R$ ${leadData.cac}`} icon={DollarSign} trend={{ value: 5, isPositive: true }} />
+            <MetricCard title="LTV Estimado" value={`R$ ${(leadData.ltv / 1000).toFixed(0)}K`} icon={TrendingUp} trend={{ value: 12, isPositive: true }} />
             <MetricCard title="CAC/LTV" value={`${leadData.cacLtv}%`} icon={TrendingUp} />
-            <MetricCard title="ROAS" value={`${leadData.roas}x`} icon={DollarSign} trend="+8%" positive />
+            <MetricCard title="ROAS" value={`${leadData.roas}x`} icon={DollarSign} trend={{ value: 8, isPositive: true }} />
           </div>
 
           {/* Tabs de Conteúdo */}
