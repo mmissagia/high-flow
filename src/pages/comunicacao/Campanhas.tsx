@@ -87,9 +87,9 @@ export default function Campanhas() {
 
       <div className="grid grid-cols-4 gap-4">
         <MetricCard title="Total Enviados" value={totalSent.toLocaleString()} icon={Send} />
-        <MetricCard title="Conversões" value={totalConverted.toString()} icon={TrendingUp} trend="+22%" positive />
+        <MetricCard title="Conversões" value={totalConverted.toString()} icon={TrendingUp} trend={{ value: 22, isPositive: true }} />
         <MetricCard title="Taxa Conversão" value={`${avgConversion}%`} icon={Megaphone} />
-        <MetricCard title="Receita Gerada" value={`R$ ${(totalRevenue / 1000).toFixed(0)}K`} icon={TrendingUp} trend="+35%" positive />
+        <MetricCard title="Receita Gerada" value={`R$ ${(totalRevenue / 1000).toFixed(0)}K`} icon={TrendingUp} trend={{ value: 35, isPositive: true }} />
       </div>
 
       <Card>
