@@ -98,6 +98,7 @@ function AppLayout() {
                 <Route path="/entrega/cursos" element={<MeusCursos />} />
                 <Route path="/entrega/mentorias" element={<MinhasMentorias />} />
                 <Route path="/entrega/mentorias/:id" element={<MinhasMentorias />} />
+                <Route path="/entrega/mentorias-ht" element={<MinhasMentorias />} />
                 <Route path="/entrega/mentor" element={<PainelMentor />} />
                 <Route path="/entrega/produtor" element={<PainelProdutor />} />
 
