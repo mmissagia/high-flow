@@ -32,12 +32,20 @@ import Conversas from "./pages/comunicacao/Conversas";
 
 // Entrega
 import MeusCursos from "./pages/entrega/MeusCursos";
-
-// Conexões
-import Conexoes from "./pages/Conexoes";
 import MinhasMentorias from "./pages/entrega/MinhasMentorias";
 import PainelMentor from "./pages/entrega/PainelMentor";
 import PainelProdutor from "./pages/entrega/PainelProdutor";
+
+// Conexões
+import Conexoes from "./pages/Conexoes";
+
+// Comercial
+import Equipe from "./pages/comercial/Equipe";
+import Atividades from "./pages/comercial/Atividades";
+import PerformanceComercial from "./pages/comercial/PerformanceComercial";
+import Comissoes from "./pages/comercial/Comissoes";
+import Agenda from "./pages/comercial/Agenda";
+import Relatorios from "./pages/comercial/Relatorios";
 
 const queryClient = new QueryClient();
 
@@ -79,6 +87,14 @@ function AppLayout() {
                 <Route path="/crm/leads" element={<LeadsList />} />
                 <Route path="/crm/lead" element={<LeadDetail />} />
                 <Route path="/crm/lead/:id" element={<LeadDetail />} />
+
+                {/* Comercial */}
+                <Route path="/comercial/equipe" element={<Equipe />} />
+                <Route path="/comercial/atividades" element={<Atividades />} />
+                <Route path="/comercial/performance" element={<PerformanceComercial />} />
+                <Route path="/comercial/comissoes" element={<Comissoes />} />
+                <Route path="/comercial/agenda" element={<Agenda />} />
+                <Route path="/comercial/relatorios" element={<Relatorios />} />
 
                 {/* Eventos */}
                 <Route path="/eventos" element={<EventosList />} />

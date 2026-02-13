@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import LeadComercialTab from "@/components/crm/LeadComercialTab";
 import {
   Phone,
   Mail,
@@ -137,6 +138,7 @@ export default function LeadDetail() {
               <CardHeader>
                 <TabsList>
                   <TabsTrigger value="timeline">Timeline</TabsTrigger>
+                  <TabsTrigger value="comercial">Comercial</TabsTrigger>
                   <TabsTrigger value="purchases">Histórico SUN</TabsTrigger>
                   <TabsTrigger value="events">Eventos</TabsTrigger>
                   <TabsTrigger value="courses">Cursos</TabsTrigger>
@@ -154,6 +156,10 @@ export default function LeadDetail() {
                       </div>
                     </div>
                   ))}
+                </TabsContent>
+
+                <TabsContent value="comercial">
+                  <LeadComercialTab leadId={id || "1"} />
                 </TabsContent>
 
                 <TabsContent value="purchases" className="space-y-4">

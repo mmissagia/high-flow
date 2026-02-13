@@ -1,7 +1,6 @@
 import { 
   LayoutDashboard, 
   Users, 
-  Calendar, 
   MessageSquare, 
   GraduationCap,
   TrendingUp,
@@ -22,7 +21,14 @@ import {
   ChevronRight,
   Sparkles,
   LogOut,
-  Plug
+  Plug,
+  PhoneCall,
+  UsersRound,
+  Activity,
+  BarChart3,
+  DollarSign,
+  Calendar,
+  FileBarChart,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
@@ -81,6 +87,23 @@ const menuGroups = [
           { title: "Automações", url: "/comunicacao/automacoes", icon: Zap },
           { title: "Editor de Mensagens", url: "/comunicacao/editor", icon: PenTool },
           { title: "Conversas (WhatsApp)", url: "/comunicacao/conversas", icon: MessageCircle },
+        ],
+      },
+    ],
+  },
+  {
+    label: "📞 Comercial",
+    groups: [
+      {
+        title: "Comercial",
+        icon: PhoneCall,
+        items: [
+          { title: "Equipe", url: "/comercial/equipe", icon: UsersRound },
+          { title: "Atividades", url: "/comercial/atividades", icon: Activity },
+          { title: "Performance", url: "/comercial/performance", icon: BarChart3 },
+          { title: "Comissões", url: "/comercial/comissoes", icon: DollarSign },
+          { title: "Agenda", url: "/comercial/agenda", icon: Calendar },
+          { title: "Relatórios", url: "/comercial/relatorios", icon: FileBarChart },
         ],
       },
     ],
