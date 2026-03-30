@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { X, Brain, Send, Sparkles, Phone, Users, TrendingUp, DollarSign, AlertTriangle, Zap, MessageSquare, FileText } from "lucide-react";
+import { X, Brain, Send, AlertTriangle, Zap, MessageSquare, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
@@ -20,7 +19,7 @@ interface AIAgentPanelProps {
 export function AIAgentPanel({ open, onOpenChange }: AIAgentPanelProps) {
   const [activeTab, setActiveTab] = useState("briefing");
   const [quickMessage, setQuickMessage] = useState("");
-  const alertCount = 5;
+  const alertCount = 8;
 
   const handleQuickSend = () => {
     if (!quickMessage.trim()) return;
