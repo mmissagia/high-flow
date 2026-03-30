@@ -76,6 +76,8 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 }
 
 function AppLayout() {
+  const [aiPanelOpen, setAiPanelOpen] = useState(false);
+
   return (
     <ProtectedRoute>
       <GlobalFilterProvider>
@@ -144,6 +146,8 @@ function AppLayout() {
               </main>
             </div>
           </div>
+          <AIAgentFab onClick={() => setAiPanelOpen(true)} alertCount={5} />
+          <AIAgentPanel open={aiPanelOpen} onOpenChange={setAiPanelOpen} />
         </SidebarProvider>
       </GlobalFilterProvider>
     </ProtectedRoute>
