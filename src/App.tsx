@@ -97,64 +97,46 @@ function AppLayoutInner() {
           <div className="flex-1" />
           <AIHeaderBadge alertCount={8} onClick={openAlerts} />
         </header>
-              <main className="flex-1 p-6 bg-muted/30">
-                <Routes>
-                  {/* Dashboard */}
-                  <Route path="/" element={<Dashboard />} />
-
-                  {/* Performance */}
-                  <Route path="/performance/relatorios" element={<Relatorios />} />
-                  <Route path="/performance/indicadores" element={<Dashboard />} />
-
-                  {/* CRM */}
-                  <Route path="/crm/pipeline" element={<Pipeline />} />
-                  <Route path="/crm/leads" element={<LeadsList />} />
-                  <Route path="/crm/lead" element={<LeadDetail />} />
-                  <Route path="/crm/lead/:id" element={<LeadDetail />} />
-
-                  {/* Comercial */}
-                  <Route path="/comercial/equipe" element={<Equipe />} />
-                  <Route path="/comercial/atividades" element={<Atividades />} />
-                  <Route path="/comercial/produtividade" element={<PerformanceComercial />} />
-                  <Route path="/comercial/performance" element={<PerformanceComercial />} />
-                  <Route path="/comercial/comissoes" element={<Comissoes />} />
-                  <Route path="/comercial/agenda" element={<Agenda />} />
-                  <Route path="/comercial/relatorios" element={<Relatorios />} />
-
-                  {/* Eventos */}
-                  <Route path="/eventos" element={<EventosList />} />
-                  <Route path="/eventos/detalhe" element={<EventoDetail />} />
-                  <Route path="/eventos/detalhe/:id" element={<EventoDetail />} />
-                  <Route path="/eventos/pitch" element={<PitchEditor />} />
-                  <Route path="/eventos/pitch/:id" element={<PitchEditor />} />
-                  <Route path="/eventos/estrategias" element={<ConstrutorEstrategias />} />
-
-                  {/* Comunicação */}
-                  <Route path="/comunicacao/campanhas" element={<Campanhas />} />
-                  <Route path="/comunicacao/automacoes" element={<Automacoes />} />
-                  <Route path="/comunicacao/editor" element={<EditorMensagens />} />
-                  <Route path="/comunicacao/conversas" element={<Conversas />} />
-
-                  {/* Entrega */}
-                  <Route path="/entrega/cursos" element={<MeusCursos />} />
-                  <Route path="/entrega/mentorias" element={<MinhasMentorias />} />
-                  <Route path="/entrega/mentorias/:id" element={<MinhasMentorias />} />
-                  <Route path="/entrega/mentorias-ht" element={<MinhasMentorias />} />
-                  <Route path="/entrega/mentor" element={<PainelMentor />} />
-                  <Route path="/entrega/produtor" element={<PainelProdutor />} />
-
-                  {/* Conexões */}
-                  <Route path="/conexoes" element={<Conexoes />} />
-
-                  {/* Infraestrutura */}
-                  <Route path="/infra/seguranca" element={<Seguranca />} />
-                  <Route path="/infra/configuracoes" element={<Configuracoes />} />
-
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
+        <main className="flex-1 p-6 bg-muted/30">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/performance/relatorios" element={<Relatorios />} />
+            <Route path="/performance/indicadores" element={<Dashboard />} />
+            <Route path="/crm/pipeline" element={<Pipeline />} />
+            <Route path="/crm/leads" element={<LeadsList />} />
+            <Route path="/crm/lead" element={<LeadDetail />} />
+            <Route path="/crm/lead/:id" element={<LeadDetail />} />
+            <Route path="/comercial/equipe" element={<Equipe />} />
+            <Route path="/comercial/atividades" element={<Atividades />} />
+            <Route path="/comercial/produtividade" element={<PerformanceComercial />} />
+            <Route path="/comercial/performance" element={<PerformanceComercial />} />
+            <Route path="/comercial/comissoes" element={<Comissoes />} />
+            <Route path="/comercial/agenda" element={<Agenda />} />
+            <Route path="/comercial/relatorios" element={<Relatorios />} />
+            <Route path="/eventos" element={<EventosList />} />
+            <Route path="/eventos/detalhe" element={<EventoDetail />} />
+            <Route path="/eventos/detalhe/:id" element={<EventoDetail />} />
+            <Route path="/eventos/pitch" element={<PitchEditor />} />
+            <Route path="/eventos/pitch/:id" element={<PitchEditor />} />
+            <Route path="/eventos/estrategias" element={<ConstrutorEstrategias />} />
+            <Route path="/comunicacao/campanhas" element={<Campanhas />} />
+            <Route path="/comunicacao/automacoes" element={<Automacoes />} />
+            <Route path="/comunicacao/editor" element={<EditorMensagens />} />
+            <Route path="/comunicacao/conversas" element={<Conversas />} />
+            <Route path="/entrega/cursos" element={<MeusCursos />} />
+            <Route path="/entrega/mentorias" element={<MinhasMentorias />} />
+            <Route path="/entrega/mentorias/:id" element={<MinhasMentorias />} />
+            <Route path="/entrega/mentorias-ht" element={<MinhasMentorias />} />
+            <Route path="/entrega/mentor" element={<PainelMentor />} />
+            <Route path="/entrega/produtor" element={<PainelProdutor />} />
+            <Route path="/conexoes" element={<Conexoes />} />
+            <Route path="/infra/seguranca" element={<Seguranca />} />
+            <Route path="/infra/configuracoes" element={<Configuracoes />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+      </div>
+    </div>
       <AIAgentFab onClick={() => { setAiInitialTab(undefined); setAiPanelOpen(true); }} alertCount={8} />
       <AIAgentPanel open={aiPanelOpen} onOpenChange={setAiPanelOpen} initialTab={aiInitialTab} />
     </div>
