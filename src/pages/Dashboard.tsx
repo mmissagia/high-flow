@@ -453,6 +453,78 @@ export default function Dashboard() {
           </Card>
         </Link>
       </div>
+
+      {/* Checkout High Ticket */}
+      <CheckoutDashboardSection />
     </div>
+  );
+}
+
+function CheckoutDashboardSection() {
+  const paidTotal = mockInvoicesData.filter((i) => i.status === "paga").reduce((s, i) => s + i.value, 0);
+  const pendingTotal = mockInvoicesData.filter((i) => i.status === "pendente" || i.status === "enviada").reduce((s, i) => s + i.value, 0);
+  const overdueInvoices = mockInvoicesData.filter((i) => i.status === "vencida");
+  const overdueTotal = overdueInvoices.reduce((s, i) => s + i.value, 0);
+
+  const monthlyRevenue = [
+    { month: "Out", value: 38000 },
+    { month: "Nov", value: 52000 },
+    { month: "Dez", value: 45000 },
+    { month: "Jan", value: 61000 },
+    { month: "Fev", value: 72000 },
+    { month: "Mar", value: paidTotal },
+  ];
+  const maxRevenue = Math.max(...monthlyRevenue.map((m) => m.value));
+
+  return (
+    <Link to="/checkout-ht" className="block">
+      <Card className="hover:shadow-lg transition-all cursor-pointer">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <CreditCard className="w-5 h-5 text-primary" />
+            Checkout High Ticket
+            <div
+              className="ml-2 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-semibold text-white"
+              style={{ background: "linear-gradient(135deg, #4F46E5, #9333EA)" }}
+            >
+              Z2Pay
+            </div>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-3 gap-4 mb-4">
+            <div className="p-3 bg-muted/50 rounded-lg">
+              <p className="text-xs text-muted-foreground">Receita realizada</p>
+              <p className="text-lg font-bold text-emerald-600 tabular-nums">{formatCurrency(paidTotal)}</p>
+            </div>
+            <div className="p-3 bg-muted/50 rounded-lg">
+              <p className="text-xs text-muted-foreground">Receita pendente</p>
+              <p className="text-lg font-bold text-amber-500 tabular-nums">{formatCurrency(pendingTotal)}</p>
+            </div>
+            <div className="p-3 bg-muted/50 rounded-lg">
+              <p className="text-xs text-muted-foreground">Faturas vencidas</p>
+              <p className="text-lg font-bold text-red-500 tabular-nums">
+                {overdueInvoices.length} ({formatCurrency(overdueTotal)})
+              </p>
+            </div>
+          </div>
+          {/* Mini bar chart */}
+          <div>
+            <p className="text-xs text-muted-foreground mb-2">Receita — últimos 6 meses</p>
+            <div className="flex items-end gap-2 h-16">
+              {monthlyRevenue.map((m) => (
+                <div key={m.month} className="flex-1 flex flex-col items-center gap-1">
+                  <div
+                    className="w-full rounded-sm bg-primary/80"
+                    style={{ height: `${(m.value / maxRevenue) * 100}%`, minHeight: 4 }}
+                  />
+                  <span className="text-[10px] text-muted-foreground">{m.month}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }
