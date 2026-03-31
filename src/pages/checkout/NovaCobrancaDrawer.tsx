@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { format } from "date-fns";
 import { CalendarIcon, Plus, Trash2, Check, Copy, MessageCircle, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
