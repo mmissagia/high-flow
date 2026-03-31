@@ -120,6 +120,7 @@ const menuGroups = [
         items: [
           { title: "Produtos", url: "/eventos/pitch", icon: DollarSign },
           { title: "Construtor de Estratégias", url: "/eventos/estrategias", icon: Sparkles },
+          { title: "Checkout High Ticket", url: "/checkout-ht", icon: CreditCard },
         ],
       },
     ],
