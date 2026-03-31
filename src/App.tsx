@@ -77,19 +77,26 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-function AppLayout() {
+function AppLayoutInner() {
   const [aiPanelOpen, setAiPanelOpen] = useState(false);
+  const [aiInitialTab, setAiInitialTab] = useState<string | undefined>();
+
+  const openAlerts = useCallback(() => {
+    setAiInitialTab("alertas");
+    setAiPanelOpen(true);
+  }, []);
+
+  useAIToastAlerts(openAlerts);
 
   return (
-    <ProtectedRoute>
-      <GlobalFilterProvider>
-        <SidebarProvider>
-          <div className="min-h-screen flex w-full">
-            <AppSidebar />
-            <div className="flex-1 flex flex-col">
-              <header className="h-16 border-b border-border bg-background flex items-center px-6">
-                <SidebarTrigger className="mr-4" />
-              </header>
+    <div className="min-h-screen flex w-full">
+      <AppSidebar />
+      <div className="flex-1 flex flex-col">
+        <header className="h-16 border-b border-border bg-background flex items-center px-6">
+          <SidebarTrigger className="mr-4" />
+          <div className="flex-1" />
+          <AIHeaderBadge alertCount={8} onClick={openAlerts} />
+        </header>
               <main className="flex-1 p-6 bg-muted/30">
                 <Routes>
                   {/* Dashboard */}
