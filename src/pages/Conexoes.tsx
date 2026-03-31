@@ -59,7 +59,7 @@ export default function Conexoes() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("connections")
-        .select("*")
+        .select("id, user_id, provider, status, last_sync_at, created_at, updated_at")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return data;
