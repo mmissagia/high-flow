@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { GlobalContextSelector } from "@/components/GlobalContextSelector";
 import { Link } from "react-router-dom";
+import { mockInvoicesData, formatCurrency } from "@/data/checkoutData";
 import { 
   TrendingUp, 
   Users, 
