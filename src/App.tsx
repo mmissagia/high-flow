@@ -56,6 +56,7 @@ import PerformanceComercial from "./pages/comercial/PerformanceComercial";
 import Comissoes from "./pages/comercial/Comissoes";
 import Agenda from "./pages/comercial/Agenda";
 import Relatorios from "./pages/comercial/Relatorios";
+import CheckoutHighTicket from "./pages/checkout/CheckoutHighTicket";
 
 const queryClient = new QueryClient();
 
