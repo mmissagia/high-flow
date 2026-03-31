@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { format } from "date-fns";
 import { CalendarIcon, Plus, Trash2, Check, Copy, MessageCircle, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -69,10 +69,12 @@ export function NovaCobrancaDrawer({
   open,
   onOpenChange,
   onInvoiceCreated,
+  prefilledLead,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
   onInvoiceCreated: (inv: InvoiceResult) => void;
+  prefilledLead?: { name: string; email: string; pipelineValue: number };
 }) {
   const [step, setStep] = useState<"form" | "confirmation">("form");
   const [selectedLeadId, setSelectedLeadId] = useState("");
@@ -88,6 +90,19 @@ export function NovaCobrancaDrawer({
   const [dueDate, setDueDate] = useState<Date>();
   const [notes, setNotes] = useState("");
   const [generatedLink, setGeneratedLink] = useState("");
+
+  // Prefill lead when prop provided
+  useEffect(() => {
+    if (open && prefilledLead) {
+      const match = mockLeads.find(
+        (l) => l.name === prefilledLead.name || l.email === prefilledLead.email
+      );
+      if (match) {
+        setSelectedLeadId(match.id);
+        setTotalValue(prefilledLead.pipelineValue);
+      }
+    }
+  }, [open, prefilledLead]);
 
   const selectedLead = mockLeads.find((l) => l.id === selectedLeadId);
 
