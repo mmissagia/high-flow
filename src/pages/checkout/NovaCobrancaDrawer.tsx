@@ -69,10 +69,12 @@ export function NovaCobrancaDrawer({
   open,
   onOpenChange,
   onInvoiceCreated,
+  prefilledLead,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
   onInvoiceCreated: (inv: InvoiceResult) => void;
+  prefilledLead?: { name: string; email: string; pipelineValue: number };
 }) {
   const [step, setStep] = useState<"form" | "confirmation">("form");
   const [selectedLeadId, setSelectedLeadId] = useState("");
