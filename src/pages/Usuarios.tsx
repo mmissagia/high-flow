@@ -222,8 +222,9 @@ export default function Usuarios() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem disabled>Editar</DropdownMenuItem>
-                      <DropdownMenuItem disabled>Alterar papel</DropdownMenuItem>
+                      <EditRolePopover userId={u.id} currentRole={u.role} userName={u.name}>
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>Editar papel</DropdownMenuItem>
+                      </EditRolePopover>
                       <DropdownMenuItem disabled>Desativar</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
