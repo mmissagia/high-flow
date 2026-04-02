@@ -48,6 +48,7 @@ import Conexoes from "./pages/Conexoes";
 // Infraestrutura
 import Seguranca from "./pages/infra/Seguranca";
 import Configuracoes from "./pages/infra/Configuracoes";
+import Usuarios from "./pages/Usuarios";
 
 // Comercial
 import Equipe from "./pages/comercial/Equipe";
