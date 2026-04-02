@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { InviteUserModal } from "@/components/usuarios/InviteUserModal";
+import { EditRolePopover } from "@/components/usuarios/EditRolePopover";
 import {
   Select,
   SelectContent,
@@ -69,6 +71,7 @@ export default function Usuarios() {
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [inviteOpen, setInviteOpen] = useState(false);
 
   const { data: dbUsers = [], isLoading } = useQuery({
     queryKey: ["users_access"],
@@ -157,7 +160,7 @@ export default function Usuarios() {
             {STATUSES.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
           </SelectContent>
         </Select>
-        <Button disabled className="gap-2">
+        <Button className="gap-2" onClick={() => setInviteOpen(true)}>
           <UserPlus className="h-4 w-4" />
           Convidar Usuário
         </Button>
@@ -219,8 +222,9 @@ export default function Usuarios() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem disabled>Editar</DropdownMenuItem>
-                      <DropdownMenuItem disabled>Alterar papel</DropdownMenuItem>
+                      <EditRolePopover userId={u.id} currentRole={u.role} userName={u.name}>
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>Editar papel</DropdownMenuItem>
+                      </EditRolePopover>
                       <DropdownMenuItem disabled>Desativar</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -230,6 +234,8 @@ export default function Usuarios() {
           </TableBody>
         </Table>
       </Card>
+
+      <InviteUserModal open={inviteOpen} onOpenChange={setInviteOpen} />
     </div>
   );
 }
