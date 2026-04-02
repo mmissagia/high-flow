@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { InviteUserModal } from "@/components/usuarios/InviteUserModal";
+import { EditRolePopover } from "@/components/usuarios/EditRolePopover";
 import {
   Select,
   SelectContent,
