@@ -234,6 +234,8 @@ export default function Usuarios() {
           </TableBody>
         </Table>
       </Card>
+
+      <InviteUserModal open={inviteOpen} onOpenChange={setInviteOpen} />
     </div>
   );
 }
