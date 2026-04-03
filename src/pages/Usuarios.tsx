@@ -130,7 +130,7 @@ export default function Usuarios() {
     });
   };
 
-  const handleReactivate = (user: typeof mockUsers[0]) => {
+  const handleReactivate = (user: any) => {
     statusMutation.mutate({ id: user.id, status: "Ativo" }, {
       onSuccess: () => toast.success(`${user.name} foi reativado`),
       onError: () => toast.error("Erro ao reativar usuário"),
