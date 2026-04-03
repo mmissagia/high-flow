@@ -31,6 +31,18 @@ import {
 import { Search, UserPlus, Users, UserCheck, UserX, Clock, MoreHorizontal } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 const ROLES = ["Produtor", "Gestor Comercial", "SDR", "Closer", "Mentor", "Operações", "Afiliado", "Mentorado"] as const;
 const STATUSES = ["Ativo", "Convidado", "Inativo"] as const;
