@@ -282,7 +282,21 @@ export default function Usuarios() {
                       <EditRolePopover userId={u.id} currentRole={u.role} userName={u.name}>
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>Editar papel</DropdownMenuItem>
                       </EditRolePopover>
-                      <DropdownMenuItem disabled>Desativar</DropdownMenuItem>
+                      {u.status === "Ativo" || u.status === "Convidado" ? (
+                        <DropdownMenuItem onSelect={() => setConfirmDialog({ type: "deactivate", user: u })}>
+                          Desativar
+                        </DropdownMenuItem>
+                      ) : (
+                        <DropdownMenuItem onSelect={() => handleReactivate(u)}>
+                          Reativar
+                        </DropdownMenuItem>
+                      )}
+                      <DropdownMenuItem
+                        className="text-destructive focus:text-destructive"
+                        onSelect={() => setConfirmDialog({ type: "remove", user: u })}
+                      >
+                        Remover
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
@@ -293,6 +307,44 @@ export default function Usuarios() {
       </Card>
 
       <InviteUserModal open={inviteOpen} onOpenChange={setInviteOpen} />
+
+      <AlertDialog open={confirmDialog?.type === "deactivate"} onOpenChange={(v) => !v && setConfirmDialog(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Desativar acesso de {confirmDialog?.user.name}?</AlertDialogTitle>
+            <AlertDialogDescription>
+              O usuário não poderá acessar o HighFlow, mas o registro será mantido.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeactivate} disabled={statusMutation.isPending}>
+              {statusMutation.isPending ? "Desativando..." : "Desativar"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={confirmDialog?.type === "remove"} onOpenChange={(v) => !v && setConfirmDialog(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Remover {confirmDialog?.user.name} permanentemente?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta ação não pode ser desfeita. O registro será excluído permanentemente.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleRemove}
+              disabled={removeMutation.isPending}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {removeMutation.isPending ? "Removendo..." : "Remover"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
