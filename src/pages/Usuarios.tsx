@@ -31,6 +31,18 @@ import {
 import { Search, UserPlus, Users, UserCheck, UserX, Clock, MoreHorizontal } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 const ROLES = ["Produtor", "Gestor Comercial", "SDR", "Closer", "Mentor", "Operações", "Afiliado", "Mentorado"] as const;
 const STATUSES = ["Ativo", "Convidado", "Inativo"] as const;
@@ -73,6 +85,9 @@ export default function Usuarios() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [inviteOpen, setInviteOpen] = useState(false);
 
+  const [confirmDialog, setConfirmDialog] = useState<{ type: "deactivate" | "remove"; user: typeof mockUsers[0] } | null>(null);
+  const queryClient = useQueryClient();
+
   const { data: dbUsers = [], isLoading } = useQuery({
     queryKey: ["users_access"],
     queryFn: async () => {
@@ -84,6 +99,48 @@ export default function Usuarios() {
       return data;
     },
   });
+
+  const statusMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
+      const { error } = await supabase.from("users_access").update({ status }).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users_access"] });
+    },
+  });
+
+  const removeMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("users_access").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users_access"] });
+      toast.success("Usuário removido com sucesso");
+    },
+    onError: () => toast.error("Erro ao remover usuário"),
+  });
+
+  const handleDeactivate = () => {
+    if (!confirmDialog || confirmDialog.type !== "deactivate") return;
+    statusMutation.mutate({ id: confirmDialog.user.id, status: "Inativo" }, {
+      onSuccess: () => { toast.success(`${confirmDialog.user.name} foi desativado`); setConfirmDialog(null); },
+      onError: () => { toast.error("Erro ao desativar usuário"); setConfirmDialog(null); },
+    });
+  };
+
+  const handleReactivate = (user: typeof mockUsers[0]) => {
+    statusMutation.mutate({ id: user.id, status: "Ativo" }, {
+      onSuccess: () => toast.success(`${user.name} foi reativado`),
+      onError: () => toast.error("Erro ao reativar usuário"),
+    });
+  };
+
+  const handleRemove = () => {
+    if (!confirmDialog || confirmDialog.type !== "remove") return;
+    removeMutation.mutate(confirmDialog.user.id, { onSettled: () => setConfirmDialog(null) });
+  };
 
   // Fallback mock data when RLS filters out seed records
   const mockUsers = useMemo(() => [
@@ -225,7 +282,21 @@ export default function Usuarios() {
                       <EditRolePopover userId={u.id} currentRole={u.role} userName={u.name}>
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>Editar papel</DropdownMenuItem>
                       </EditRolePopover>
-                      <DropdownMenuItem disabled>Desativar</DropdownMenuItem>
+                      {u.status === "Ativo" || u.status === "Convidado" ? (
+                        <DropdownMenuItem onSelect={() => setConfirmDialog({ type: "deactivate", user: u })}>
+                          Desativar
+                        </DropdownMenuItem>
+                      ) : (
+                        <DropdownMenuItem onSelect={() => handleReactivate(u)}>
+                          Reativar
+                        </DropdownMenuItem>
+                      )}
+                      <DropdownMenuItem
+                        className="text-destructive focus:text-destructive"
+                        onSelect={() => setConfirmDialog({ type: "remove", user: u })}
+                      >
+                        Remover
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
@@ -236,6 +307,44 @@ export default function Usuarios() {
       </Card>
 
       <InviteUserModal open={inviteOpen} onOpenChange={setInviteOpen} />
+
+      <AlertDialog open={confirmDialog?.type === "deactivate"} onOpenChange={(v) => !v && setConfirmDialog(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Desativar acesso de {confirmDialog?.user.name}?</AlertDialogTitle>
+            <AlertDialogDescription>
+              O usuário não poderá acessar o HighFlow, mas o registro será mantido.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeactivate} disabled={statusMutation.isPending}>
+              {statusMutation.isPending ? "Desativando..." : "Desativar"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={confirmDialog?.type === "remove"} onOpenChange={(v) => !v && setConfirmDialog(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Remover {confirmDialog?.user.name} permanentemente?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta ação não pode ser desfeita. O registro será excluído permanentemente.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleRemove}
+              disabled={removeMutation.isPending}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {removeMutation.isPending ? "Removendo..." : "Remover"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
