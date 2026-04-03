@@ -85,6 +85,9 @@ export default function Usuarios() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [inviteOpen, setInviteOpen] = useState(false);
 
+  const [confirmDialog, setConfirmDialog] = useState<{ type: "deactivate" | "remove"; user: typeof mockUsers[0] } | null>(null);
+  const queryClient = useQueryClient();
+
   const { data: dbUsers = [], isLoading } = useQuery({
     queryKey: ["users_access"],
     queryFn: async () => {
@@ -96,6 +99,48 @@ export default function Usuarios() {
       return data;
     },
   });
+
+  const statusMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
+      const { error } = await supabase.from("users_access").update({ status }).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users_access"] });
+    },
+  });
+
+  const removeMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("users_access").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users_access"] });
+      toast.success("Usuário removido com sucesso");
+    },
+    onError: () => toast.error("Erro ao remover usuário"),
+  });
+
+  const handleDeactivate = () => {
+    if (!confirmDialog || confirmDialog.type !== "deactivate") return;
+    statusMutation.mutate({ id: confirmDialog.user.id, status: "Inativo" }, {
+      onSuccess: () => { toast.success(`${confirmDialog.user.name} foi desativado`); setConfirmDialog(null); },
+      onError: () => { toast.error("Erro ao desativar usuário"); setConfirmDialog(null); },
+    });
+  };
+
+  const handleReactivate = (user: typeof mockUsers[0]) => {
+    statusMutation.mutate({ id: user.id, status: "Ativo" }, {
+      onSuccess: () => toast.success(`${user.name} foi reativado`),
+      onError: () => toast.error("Erro ao reativar usuário"),
+    });
+  };
+
+  const handleRemove = () => {
+    if (!confirmDialog || confirmDialog.type !== "remove") return;
+    removeMutation.mutate(confirmDialog.user.id, { onSettled: () => setConfirmDialog(null) });
+  };
 
   // Fallback mock data when RLS filters out seed records
   const mockUsers = useMemo(() => [
